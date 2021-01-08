@@ -2,10 +2,15 @@ const {app, BrowserWindow, Menu} = require('electron');
 const path = require('path');
 const url = require('url');
 const shell = require('electron').shell;
+require('electron-reload')(__dirname, {
+  electron: path.join(__dirname, 'node_modules', '.bin', 'electron.cmd')
+})
 
 const isMac = process.platform === 'darwin'
 
 let mainWindow;
+
+console.log(__dirname)
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -13,11 +18,12 @@ function createWindow() {
     height: 600,
     icon: __dirname+'/img/icon.png',
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   })
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname,'renderer.html'),
+    pathname: path.join(__dirname,'/src/index.html'),
     protocol: 'file:',
     slashes: true
   }))
