@@ -16,7 +16,9 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    show: false,
     icon: __dirname+'/img/icon.png',
+    backgroundColor: '#1E1E1E',
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true
@@ -34,6 +36,12 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   })
+
+
+  mainWindow.on('ready-to-show', function() {
+      mainWindow.show();
+      mainWindow.focus();
+  });
 
   var menu = Menu.buildFromTemplate([
     {

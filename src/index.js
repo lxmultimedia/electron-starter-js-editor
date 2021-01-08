@@ -21,7 +21,8 @@ newWin.addEventListener('click', function (event) {
     frame: false,
     alwaysOnTop: true,
     width: 400, 
-    height: 200,    
+    height: 200, 
+    backgroundColor: '#282923',   
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true
