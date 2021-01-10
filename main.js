@@ -9,9 +9,11 @@ const ipc = require('electron').ipcMain
 
 const isMac = process.platform === 'darwin'
 
-let mainWindow;
 
-console.log(__dirname)
+/*** WINDOW HANDLING      ***/
+/****************************/
+
+let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -33,7 +35,6 @@ function createWindow() {
 
   //mainWindow.webContents.openDevTools()
 
-
   mainWindow.on('closed', () => {
     mainWindow = null;
   })
@@ -44,9 +45,14 @@ function createWindow() {
       mainWindow.focus();
   });
 
+
+
+/*** MENU        ***/
+/*******************/
+
   var menu = Menu.buildFromTemplate([
     {
-      label: 'Menu',
+      label: 'Main',
       submenu: [
       {
         label: 'StackBlitz',
@@ -101,6 +107,8 @@ function createWindow() {
   Menu.setApplicationMenu(menu);
 }
 
+/*** APP HANDLING      ***/
+/*************************/
 
 app.on('ready', createWindow)
 
@@ -115,6 +123,10 @@ app.on('activate', () => {
     createWindow();
   }
 })
+
+
+/*** IPC      ***/
+/*******************/
 
 ipc.on('notify', function (event, arg) {
   mainWindow.webContents.send('notify', arg)

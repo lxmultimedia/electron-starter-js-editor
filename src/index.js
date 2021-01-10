@@ -3,6 +3,10 @@ const path = require('path')
 const { BrowserWindow } = electron.remote
 const loader = require('monaco-loader')
 const ipc = electron.ipcRenderer
+const { dialog } = require('electron').remote
+
+/*** EDITOR       ***/
+/********************/
 
 let editor
 
@@ -15,6 +19,19 @@ loader().then((monaco) => {
     automaticLayout: true
   })
 })
+
+function insertText(text) {
+  var line = editor.getPosition()
+  var range = new monaco.Range(line.lineNumber, 1, line.lineNumber, 1)
+  var id = { major: 1, minor: 1 }           
+  var text = "Value from Modal: " + text + "\n"
+  var op = {identifier: id, range: range, text: text, forceMoveMarkers: true}
+  editor.executeEdits("my-source", [op])
+}
+
+
+/*** Modal Win    ***/
+/********************/
 
 const newWin = document.getElementById('newWin')
 
@@ -38,15 +55,36 @@ newWin.addEventListener('click', function (event) {
 })
 
 
-function insertText(text) {
-  var line = editor.getPosition()
-  var range = new monaco.Range(line.lineNumber, 1, line.lineNumber, 1)
-  var id = { major: 1, minor: 1 }           
-  var text = "Value from Modal: " + text + "\n"
-  var op = {identifier: id, range: range, text: text, forceMoveMarkers: true}
-  editor.executeEdits("my-source", [op])
+/*** NOTIFY       ***/
+/********************/
+
+let myNotification = null
+
+const options = {
+    type: 'question',
+    buttons: ['Cancel', 'Yes, please', 'No, thanks'],
+    defaultId: 2,
+    title: 'Question',
+    message: 'Do you want to do this?',
+    detail: 'It does not really matter',
+    checkboxLabel: 'Remember my answer',
+    checkboxChecked: true,
+  };
+
+const notification = {
+  body: 'Message sent',
+  icon: path.join(__dirname, '../assets/images/alert.png')
 }
 
 ipc.on('notify', function (event, arg) {
   insertText(arg)
+  myNotification = new window.Notification('Alert', notification)
+
+  myNotification.onclick = () => {
+    dialog.showMessageBox(null, options, (response, checkboxChecked) => {
+    console.log(response);
+    console.log(checkboxChecked);
+  });
+  }
 })
+
