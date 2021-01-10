@@ -10,3 +10,14 @@ h1 {
 	color: white;
 	-webkit-app-region: drag;
 }
+
+#sendValue {
+	border: 1px solid white;
+	background: transparent;
+	color: white;
+	margin: 10px;
+	position: absolute;
+	top: 50px;
+	left: 0px;
+	z-index: 999;	
+}

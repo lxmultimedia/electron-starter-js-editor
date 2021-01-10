@@ -5,6 +5,7 @@ const shell = require('electron').shell;
 require('electron-reload')(__dirname, {
   electron: path.join(__dirname, 'node_modules', '.bin', 'electron.cmd')
 })
+const ipc = require('electron').ipcMain
 
 const isMac = process.platform === 'darwin'
 
@@ -113,4 +114,8 @@ app.on('activate', () => {
   if(win === null) {
     createWindow();
   }
+})
+
+ipc.on('notify', function (event, arg) {
+  mainWindow.webContents.send('notify', arg)
 })
