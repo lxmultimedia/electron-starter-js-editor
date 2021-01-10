@@ -2,9 +2,11 @@ const {app, BrowserWindow, Menu} = require('electron');
 const path = require('path');
 const url = require('url');
 const shell = require('electron').shell;
+/*
 require('electron-reload')(__dirname, {
   electron: path.join(__dirname, 'node_modules', '.bin', 'electron.cmd')
 })
+*/
 const ipc = require('electron').ipcMain
 
 const isMac = process.platform === 'darwin'
@@ -20,7 +22,7 @@ function createWindow() {
     width: 800,
     height: 600,
     show: false,
-    icon: __dirname+'/img/icon.png',
+    icon: __dirname+'/assets/images/icon.png',
     backgroundColor: '#1E1E1E',
     webPreferences: {
       nodeIntegration: true,
