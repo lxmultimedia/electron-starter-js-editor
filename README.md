@@ -2,4 +2,4 @@
 Electron starter project (a javascript code editor).
 
 
-![JS Editor](http://mantares.bplaced.net/aux/git/jseditor.jpg)
+![JS Editor](https://www.lxmcloud.tk/git/jseditor.jpg)
